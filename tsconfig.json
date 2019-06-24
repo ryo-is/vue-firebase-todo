@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -11,8 +11,10 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "strictNullChecks": false,
     "types": [
       "webpack-env",
+      "node",
       "jest"
     ],
     "paths": {
@@ -36,5 +38,8 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "src/declare_modules.d.ts"
   ]
 }
