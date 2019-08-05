@@ -6,6 +6,6 @@ v-container.signin(text-center)
       v-form(v-model="valid" lazy-validation)
         v-text-field(v-model="mailAddress" label="MailAddress" required :rules="mailAddressRules")
         v-text-field(v-model="password" label="Password" required type="password" :rules="passwordRules")
-        v-btn.my-2(:disabled="!valid" color="primary" large @click="submitSignUp") サインアップ
+        v-btn.my-2(:disabled="!valid" color="primary" large @click="submitSignUp") SignUp
     v-flex(xs12)
-      v-btn.my-2(color="success" large @click="linkSignin()") 戻る
+      v-btn.my-2(color="success" large @click="linkSignin()") Back

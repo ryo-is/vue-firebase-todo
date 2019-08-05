@@ -6,6 +6,6 @@ v-container.signin(text-center)
       v-form(v-model="valid" lazy-validation @submit.prevent="submitSignIn")
         v-text-field(v-model="mailAddress" label="MailAddress" required :rules="mailAddressRules")
         v-text-field(v-model="password" label="Password" required type="password" :rules="passwordRules")
-        v-btn.my-2(:disabled="!valid" color="primary" large type="submit") サインイン
+        v-btn.my-2(:disabled="!valid" color="primary" large type="submit") SignIn
     v-flex(xs12)
-      v-btn.my-2(color="success" large @click="linkSignup()") サインアップする
+      v-btn.my-2(color="success" large @click="linkSignup()") Create Account
