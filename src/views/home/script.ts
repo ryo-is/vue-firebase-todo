@@ -1,8 +1,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import router from "@/router"
 import firebase from "firebase"
-
-const store: firebase.firestore.Firestore = firebase.firestore()
+import store from "@/firebase/firestore_init"
 
 @Component({})
 export default class Home extends Vue {
@@ -11,6 +10,8 @@ export default class Home extends Vue {
   public age: number = 18
   public gender: string = ""
   public genderItems: string[] = ["male", "female", "other"]
+
+  public tableHeaders: string[] = ["name", "age", "gender"]
 
   public async setUsers(): Promise<void> {
     try {
