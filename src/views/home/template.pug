@@ -9,7 +9,7 @@ v-container.home(text-center)
         v-btn(color="primary" large @click="setUsers()") Create
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm9 md8 lg7 xl6)
-      v-data-table(:headers="tableHeaders")
+      v-data-table(:headers="tableHeaders" :items="userData")
 
     //- v-flex(xs12).mt-10
     //-   v-btn(color="primary" large @click="signOut()") SignOut
