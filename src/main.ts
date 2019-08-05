@@ -5,6 +5,11 @@ import router from "./router"
 import store from "./store"
 import "./registerServiceWorker"
 
+import firebase from "firebase"
+import {firebaseConfig } from "./firebase_config"
+
+firebase.initializeApp(firebaseConfig)
+
 Vue.config.productionTip = false
 
 new Vue({
