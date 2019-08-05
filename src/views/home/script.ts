@@ -12,14 +12,14 @@ export default class Home extends Vue {
   public gender: string = ""
   public genderItems: string[] = ["male", "female", "other"]
 
-  public async createUser(): Promise<void> {
+  public async setUsers(): Promise<void> {
     try {
-      const result: firebase.firestore.DocumentReference = await store.collection("users").add({
+      await store.collection("users").doc(this.name).set({
         name: this.name,
         age: this.age,
         gender: this.gender
       })
-      console.log(result)
+      console.log("success!!!")
     } catch (err) {
       console.error(err)
     }
