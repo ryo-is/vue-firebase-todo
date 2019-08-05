@@ -1,4 +1,6 @@
-export const firebaseConfig: {[k: string]: string} = {
+import { FirebaseConfigType } from "@/types"
+
+export const firebaseConfig: FirebaseConfigType = {
   apiKey: "AIzaSyC44AccnDFIYLIrHhEOXVrcdrM6vxAT9b8",
   authDomain: "vue-firebase-app-52cbd.firebaseapp.com",
   databaseURL: "https://vue-firebase-app-52cbd.firebaseio.com",
