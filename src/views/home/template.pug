@@ -2,3 +2,5 @@ v-container.home(text-center)
   v-layout(row justify-center)
     v-flex(xs12).mt-6
       .display-1.font-weight-light {{ title }}
+    v-flex(xs12).mt-10
+      v-btn(color="primary" large @click="signOut()") サインアウト

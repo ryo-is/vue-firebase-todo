@@ -18,8 +18,6 @@ export default class SignUp extends Vue {
 
   // サインアップ処理
   public async submitSignUp(): Promise<void> {
-    console.log(this.mailAddress)
-
     try {
       const user: firebase.auth.UserCredential = await firebase.auth().createUserWithEmailAndPassword(this.mailAddress, this.password)
       console.log(user)
