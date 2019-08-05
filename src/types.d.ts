@@ -7,3 +7,16 @@ export type FirebaseConfigType = {
   messagingSenderId: string
   appId: string
 }
+
+export type DataTableHeaderType = {
+  text: string
+  value: string
+  align?: string
+  sortable?: boolean
+}
+
+export type UserDataType = {
+  name: string
+  age: number
+  gender: "male" | "female" | "other"
+}
