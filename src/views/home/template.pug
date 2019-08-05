@@ -1,12 +1,15 @@
 v-container.home(text-center)
   .display-1.font-weight-light.mt-6 {{ title }}
-  v-layout(row justify-center).mt-6
+  v-layout.mt-6(row justify-center)
     v-flex(xs10 sm7 md6 lg5 xl3)
       v-form
         v-text-field(v-model="name" label="name")
         v-text-field(v-model.number="age" label="age" type="number" min=0 max=100)
         v-select(v-model="gender" :items="genderItems")
         v-btn(color="primary" large @click="setUsers()") Create
+  v-layout.mt-6(row justify-center)
+    v-flex(xs10 sm9 md8 lg7 xl6)
+      v-data-table(:headers="tableHeaders")
 
     //- v-flex(xs12).mt-10
     //-   v-btn(color="primary" large @click="signOut()") SignOut
