@@ -8,6 +8,11 @@ export type FirebaseConfigType = {
   appId: string
 }
 
+export type TaskType = {
+  text: string
+  done: boolean
+}
+
 export type DataTableHeaderType = {
   text: string
   value: string
