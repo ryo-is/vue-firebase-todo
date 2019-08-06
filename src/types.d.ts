@@ -9,6 +9,7 @@ export type FirebaseConfigType = {
 }
 
 export type TaskType = {
+  id: string
   text: string
   done: boolean
 }
