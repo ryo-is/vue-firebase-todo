@@ -17,7 +17,7 @@ v-container.home(text-center)
           v-divider(v-if="i !== 0" :key="`${i}-divider`")
           v-list-item(:key="`${i}-${task.text}`")
             v-list-item-action
-              v-checkbox(v-model="task.done")
+              v-checkbox(v-model="task.done" @change="updateTask(task)")
                 template(v-slot:label)
                   .task-label.ml-4(:class="task.done && 'grey--text' || 'text--primary'" v-text="task.text")
             v-spacer
