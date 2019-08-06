@@ -1,6 +1,7 @@
 import Vue from "vue"
 import Router from "vue-router"
 import Home from "./views/home/Home.vue"
+import Users from "./views/users/Users.vue"
 import SignIn from "./views/signin/Signin.vue"
 import SignUp from "./views/signup/Signup.vue"
 
@@ -14,6 +15,12 @@ export default new Router({
       path: "/",
       name: "home",
       component: Home,
+      meta: { requiredAuth: true }
+    },
+    {
+      path: "/users",
+      name: "users",
+      component: Users,
       meta: { requiredAuth: true }
     },
     {
