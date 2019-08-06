@@ -60,7 +60,8 @@ export default class Users extends Vue {
     this.buttonText = "Create"
   }
 
-  public clickRow(item: UserDataType) {
+  // テーブル行をクリックしたとき
+  public clickRow(item: UserDataType): void {
     this.name = item.name
     this.age = item.age
     this.gender = item.gender

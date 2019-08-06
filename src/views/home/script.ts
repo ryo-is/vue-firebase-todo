@@ -4,7 +4,7 @@ import { TaskType } from "@/types"
 import firebase from "firebase"
 import fireStore from "@/firebase/firestore_init"
 
-const store: firebase.firestore.CollectionReference = fireStore.collection("tasks")
+const tasksDB: firebase.firestore.CollectionReference = fireStore.collection("tasks")
 
 @Component({})
 export default class Home extends Vue {
@@ -30,7 +30,7 @@ export default class Home extends Vue {
 
   // タスク変更をsubcribeする
   public setSnapshot(): void {
-    store.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
+    tasksDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
       data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
         if (docChange.oldIndex === -1) {
           this.tasks.push({
@@ -46,10 +46,26 @@ export default class Home extends Vue {
     })
   }
 
+  // タスクの取得
+  public async getTasks(): Promise<void> {
+    try {
+      const taskData: firebase.firestore.QuerySnapshot = await tasksDB.get()
+      taskData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
+        this.tasks.push({
+          id: doc.id,
+          text: doc.data().text,
+          done: doc.data().done
+        })
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      await store.add({
+      await tasksDB.add({
         text: this.newTask,
         done: false
       })
@@ -63,7 +79,7 @@ export default class Home extends Vue {
   // タスク更新
   public async updateTask(task: any): Promise<void> {
     try {
-      await store.doc(task.id).update({
+      await tasksDB.doc(task.id).update({
         done: task.done
       })
       console.log("success!!!")

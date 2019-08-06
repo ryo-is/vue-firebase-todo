@@ -63,7 +63,14 @@
     ],
     "typedef": [
       true,
-      "variable-declaration"
+      "call-signature",
+      "arrow-call-signature",
+      "parameter",
+      "property-declaration",
+      "variable-declaration",
+      "member-variable-declaration",
+      "object-destructuring",
+      "array-destructuring"
     ],
     "typedef-whitespace": [
       true,
@@ -86,6 +93,7 @@
       "check-operator",
       "check-separator",
       "check-type"
-    ]
+    ],
+    "ban-types": false
   }
 }
