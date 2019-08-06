@@ -1,12 +1,14 @@
 import { Component, Vue } from "vue-property-decorator"
 import router from "@/router"
+import { TaskType } from "@/types"
 import firebase from "firebase"
 import fireStore from "@/firebase/firestore_init"
-import { TaskType } from "@/types"
+
+const store: firebase.firestore.CollectionReference = fireStore.collection("tasks")
 
 @Component({})
 export default class Home extends Vue {
-  public title: string = "firestore Read/Write App"
+  public title: string = "TODO Tasks"
   public newTask: string = ""
   public tasks: TaskType[] = []
 
@@ -23,36 +25,31 @@ export default class Home extends Vue {
   }
 
   public async created(): Promise<void> {
-    await this.getTasks()
+    this.setSnapshot()
   }
 
-  // タスク取得
-  public async getTasks(): Promise<void> {
-    try {
-      this.tasks = []
-      const taskData: firebase.firestore.QuerySnapshot = await fireStore.collection("tasks").get()
-      taskData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
-        this.tasks.push({
-          id: doc.id,
-          text: doc.data().text,
-          done: doc.data().done
-        })
+  // タスク変更をsubcribeする
+  public setSnapshot(): void {
+    store.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
+      data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
+        if (docChange.oldIndex === -1) {
+          this.tasks.push({
+            id: docChange.doc.id,
+            text: docChange.doc.data().text,
+            done: docChange.doc.data().done
+          })
+        } else {
+          console.log(docChange)
+          this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+        }
       })
-    } catch (err) {
-      console.error(err)
-    }
+    })
   }
 
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      const addTask: firebase.firestore.DocumentReference = await fireStore.collection("tasks").add({
-        text: this.newTask,
-        done: false
-      })
-      console.log(addTask)
-      this.tasks.push({
-        id: addTask.id,
+      await store.add({
         text: this.newTask,
         done: false
       })
@@ -66,7 +63,7 @@ export default class Home extends Vue {
   // タスク更新
   public async updateTask(task: any): Promise<void> {
     try {
-      await fireStore.collection("tasks").doc(task.id).update({
+      await store.doc(task.id).update({
         done: task.done
       })
       console.log("success!!!")
