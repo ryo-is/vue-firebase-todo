@@ -1,4 +1,24 @@
 v-container.home(text-center)
   .display-1.font-weight-light.mt-6 {{ title }}
   v-layout.mt-6(row justify-center)
+    v-flex(xs10 sm7 md6 lg5 xl3)
+      v-text-field(v-model="newTask" label="Create New Task")
+      v-btn(color="primary" @click="createTask") Add Task
+      v-divider.mt-4
+      v-layout.my-2(align-center)
+        strong.mx-4.info--text.text--darken-3 Remaining: {{ remainingTasks }}
+        v-divider(vertical)
+        strong.mx-4 Completed: {{ completedTasks }}
+        v-spacer
+        v-progress-circular.mr-2(:value="progress", color="primary")
+      v-divider.mb-4
+      v-card(v-if="tasks.length > 0")
+        template(v-for="task, i in tasks")
+          v-divider(v-if="i !== 0" :key="`${i}-divider`")
+          v-list-item(:key="`${i}-${task.text}`")
+            v-list-item-action
+              v-checkbox(v-model="task.done")
+                template(v-slot:label)
+                  .task-label.ml-4(:class="task.done && 'grey--text' || 'text--primary'" v-text="task.text")
+            v-spacer
   v-btn(color="success" large @click="signOut()" fixed right top) SignOut
