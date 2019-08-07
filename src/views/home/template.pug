@@ -3,7 +3,7 @@ v-container.home(text-center)
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm7 md6 lg5 xl3)
       v-text-field(v-model="newTask" label="Create New Task")
-      v-btn(color="primary" @click="createTask") Add Task
+      v-btn(color="primary" @click="createTask" depressed) Add Task
       v-divider.mt-4
       v-layout.my-2(align-center)
         strong.mx-4.info--text.text--darken-3 Remaining: {{ remainingTasks }}
@@ -20,5 +20,6 @@ v-container.home(text-center)
               v-checkbox(v-model="task.done" @change="updateTask(task)")
                 template(v-slot:label)
                   .task-label.ml-4(:class="task.done && 'grey--text' || 'text--primary'" v-text="task.text")
+            v-btn(color="error" v-if="task.done" absolute right depressed @click="deleteTask(task)") Delete
             v-spacer
-  v-btn(color="success" large @click="signOut()" fixed right top) SignOut
+  v-btn(color="success" large @click="signOut()" fixed right top depressed) SignOut

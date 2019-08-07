@@ -4,7 +4,7 @@ import { TaskType } from "@/types"
 import firebase from "firebase"
 import fireStore from "@/firebase/firestore_init"
 
-const store: firebase.firestore.CollectionReference = fireStore.collection("tasks")
+const tasksDB: firebase.firestore.CollectionReference = fireStore.collection("tasks")
 
 @Component({})
 export default class Home extends Vue {
@@ -30,43 +30,79 @@ export default class Home extends Vue {
 
   // タスク変更をsubcribeする
   public setSnapshot(): void {
-    store.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
+    tasksDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
       data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
-        if (docChange.oldIndex === -1) {
-          this.tasks.push({
-            id: docChange.doc.id,
-            text: docChange.doc.data().text,
-            done: docChange.doc.data().done
-          })
-        } else {
-          console.log(docChange)
-          this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+        console.log(docChange)
+        switch (docChange.type) {
+          case "added":
+            // this.tasks.push({
+            //   id: docChange.doc.id,
+            //   text: docChange.doc.data().text,
+            //   done: docChange.doc.data().done
+            // })
+            this.tasks.splice(docChange.newIndex, 0, {
+              id: docChange.doc.id,
+              text: docChange.doc.data().text,
+              done: docChange.doc.data().done
+            })
+            break
+          case "removed":
+            this.tasks.splice(docChange.oldIndex, 1)
+            break
+          default:
+            this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+            break
         }
       })
     })
   }
 
+  // タスクの取得
+  public async getTasks(): Promise<void> {
+    try {
+      const taskData: firebase.firestore.QuerySnapshot = await tasksDB.get()
+      taskData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
+        this.tasks.push({
+          id: doc.id,
+          text: doc.data().text,
+          done: doc.data().done
+        })
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      await store.add({
+      await tasksDB.add({
         text: this.newTask,
         done: false
       })
       this.newTask = ""
-      console.log("success!!!")
+      console.log("create success!!!")
     } catch (err) {
       console.error(err)
     }
   }
 
   // タスク更新
-  public async updateTask(task: any): Promise<void> {
+  public async updateTask(task: TaskType): Promise<void> {
     try {
-      await store.doc(task.id).update({
+      await tasksDB.doc(task.id).update({
         done: task.done
       })
-      console.log("success!!!")
+      console.log("update success!!!")
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  public async deleteTask(task: TaskType): Promise<void> {
+    try {
+      await tasksDB.doc(task.id).delete()
+      console.log("delete success!!!")
     } catch (err) {
       console.error(err)
     }
