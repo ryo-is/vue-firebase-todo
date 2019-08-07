@@ -70,10 +70,7 @@ export default class Home extends Vue {
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      await tasksDB.add({
-        text: this.newTask,
-        done: false
-      })
+      await tasksDB.add({　text: this.newTask,　done: false　})
       this.newTask = ""
       console.log("create success!!!")
     } catch (err) {
@@ -84,9 +81,7 @@ export default class Home extends Vue {
   // タスク更新
   public async updateTask(task: TaskType): Promise<void> {
     try {
-      await tasksDB.doc(task.id).update({
-        done: task.done
-      })
+      await tasksDB.doc(task.id).update({　done: task.done　})
       console.log("update success!!!")
     } catch (err) {
       console.error(err)
