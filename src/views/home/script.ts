@@ -32,15 +32,26 @@ export default class Home extends Vue {
   public setSnapshot(): void {
     tasksDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
       data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
-        if (docChange.oldIndex === -1) {
-          this.tasks.push({
-            id: docChange.doc.id,
-            text: docChange.doc.data().text,
-            done: docChange.doc.data().done
-          })
-        } else {
-          console.log(docChange)
-          this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+        console.log(docChange)
+        switch (docChange.type) {
+          case "added":
+            // this.tasks.push({
+            //   id: docChange.doc.id,
+            //   text: docChange.doc.data().text,
+            //   done: docChange.doc.data().done
+            // })
+            this.tasks.splice(docChange.newIndex, 0, {
+              id: docChange.doc.id,
+              text: docChange.doc.data().text,
+              done: docChange.doc.data().done
+            })
+            break
+          case "removed":
+            this.tasks.splice(docChange.oldIndex, 1)
+            break
+          default:
+            this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+            break
         }
       })
     })
@@ -70,19 +81,28 @@ export default class Home extends Vue {
         done: false
       })
       this.newTask = ""
-      console.log("success!!!")
+      console.log("create success!!!")
     } catch (err) {
       console.error(err)
     }
   }
 
   // タスク更新
-  public async updateTask(task: any): Promise<void> {
+  public async updateTask(task: TaskType): Promise<void> {
     try {
       await tasksDB.doc(task.id).update({
         done: task.done
       })
-      console.log("success!!!")
+      console.log("update success!!!")
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  public async deleteTask(task: TaskType): Promise<void> {
+    try {
+      await tasksDB.doc(task.id).delete()
+      console.log("delete success!!!")
     } catch (err) {
       console.error(err)
     }
