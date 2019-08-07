@@ -32,25 +32,19 @@ export default class Home extends Vue {
   public setSnapshot(): void {
     tasksDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
       data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
-        console.log(docChange)
         switch (docChange.type) {
           case "added":
-            // this.tasks.push({
-            //   id: docChange.doc.id,
-            //   text: docChange.doc.data().text,
-            //   done: docChange.doc.data().done
-            // })
             this.tasks.splice(docChange.newIndex, 0, {
               id: docChange.doc.id,
               text: docChange.doc.data().text,
               done: docChange.doc.data().done
             })
             break
-          case "removed":
-            this.tasks.splice(docChange.oldIndex, 1)
+          case "modified":
+            this.tasks[docChange.oldIndex].done = docChange.doc.data().done
             break
           default:
-            this.tasks[docChange.oldIndex].done = docChange.doc.data().done
+            this.tasks.splice(docChange.oldIndex, 1)
             break
         }
       })
