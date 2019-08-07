@@ -88,6 +88,7 @@ export default class Home extends Vue {
     }
   }
 
+  // タスク削除
   public async deleteTask(task: TaskType): Promise<void> {
     try {
       await tasksDB.doc(task.id).delete()
