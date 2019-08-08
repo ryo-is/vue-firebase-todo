@@ -25,6 +25,7 @@ export default class Home extends Vue {
   }
 
   public async created(): Promise<void> {
+    this.$root.$children[0].$data.displaySignOut = true
     this.setSnapshot()
   }
 
@@ -93,16 +94,6 @@ export default class Home extends Vue {
     try {
       await tasksDB.doc(task.id).delete()
       console.log("delete success!!!")
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  // サインアウト処理
-  public async signOut(): Promise<void> {
-    try {
-      await firebase.auth().signOut()
-      router.push("/signin")
     } catch (err) {
       console.error(err)
     }

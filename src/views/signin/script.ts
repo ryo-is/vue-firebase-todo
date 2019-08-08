@@ -16,6 +16,10 @@ export default class SignIn extends Vue {
     (v: any): string | boolean => !!v || "Password is required"
   ]
 
+  public created(): void {
+    this.$root.$children[0].$data.displaySignOut = false
+  }
+
   // signin処理
   public async submitSignIn(): Promise<void> {
     try {

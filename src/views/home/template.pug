@@ -22,4 +22,3 @@ v-container.home(text-center)
                   .task-label.ml-4(:class="task.done && 'grey--text' || 'text--primary'" v-text="task.text")
             v-btn(color="error" v-if="task.done" absolute right depressed @click="deleteTask(task)") Delete
             v-spacer
-  v-btn(color="success" large @click="signOut()" fixed right top depressed) SignOut
