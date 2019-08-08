@@ -1,5 +1,4 @@
 import { Component, Vue } from "vue-property-decorator"
-import router from "@/router"
 import firebase from "firebase"
 import fireStore from "@/firebase/firestore_init"
 import { DataTableHeaderType, UserDataType } from "@/types"
@@ -20,6 +19,7 @@ export default class Users extends Vue {
   public userData: UserDataType[] = []
 
   public async created(): Promise<void> {
+    this.$root.$children[0].$data.displaySignOut = true
     await this.getUser()
   }
 
@@ -66,15 +66,5 @@ export default class Users extends Vue {
     this.age = item.age
     this.gender = item.gender
     this.buttonText = "Update"
-  }
-
-  // サインアウト処理
-  public async signOut(): Promise<void> {
-    try {
-      await firebase.auth().signOut()
-      router.push("/signin")
-    } catch (err) {
-      console.error(err)
-    }
   }
 }

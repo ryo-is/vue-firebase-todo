@@ -10,4 +10,3 @@ v-container.users(text-center)
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm9 md8 lg7 xl6)
       v-data-table(:headers="tableHeaders" :items="userData" @click:row="clickRow")
-  v-btn(color="success" large @click="signOut()" fixed right top) SignOut

@@ -2,13 +2,28 @@
   v-app#app()
     v-content.main-content.overflow-y-auto
       router-view
+    v-btn(color="success" large @click="signOut()" fixed right top depressed v-if="displaySignOut") SignOut
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator"
+import router from "@/router"
+import firebase from "firebase"
 
 @Component({})
-export default class App extends Vue {}
+export default class App extends Vue {
+  public displaySignOut: boolean = false
+
+  // サインアウト処理
+  public async signOut(): Promise<void> {
+    try {
+      await firebase.auth().signOut()
+      router.push("/signin")
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
 </script>
 
 <style lang="scss">
