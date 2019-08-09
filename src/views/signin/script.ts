@@ -35,6 +35,7 @@ export default class SignIn extends Vue {
     }
   }
 
+  // エラーコードのチェック
   public checkErrorCode(code: string): void {
     switch (code) {
       case "auth/wrong-password":
