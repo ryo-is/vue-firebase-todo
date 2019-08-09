@@ -18,26 +18,32 @@ export default class Chat extends Vue {
     this.setSnapshot()
   }
 
+  // メッセージの監視
   public setSnapshot(): void {
-    messagesDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
-      data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
-        switch (docChange.type) {
-          case "added":
-            this.messages.splice(docChange.newIndex, 0, {
-              id: docChange.doc.id,
-              text: docChange.doc.data().text,
-              create_time: docChange.doc.data().create_time
-            })
-            break
-          case "modified":
-            this.messages[docChange.oldIndex].text = docChange.doc.data().message
-            break
-          default:
-            this.messages.slice(docChange.oldIndex, 1)
-            break
-        }
-      })
+    messagesDB.onSnapshot(() => {
+      this.getMessages()
     })
+  }
+
+  // メッセージの取得
+  public async getMessages(): Promise<void> {
+    const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").get()
+    if (this.messages.length === 0) {
+      messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
+        this.messages.push({
+          id: doc.id,
+          text: doc.data().text,
+          create_time: doc.data().create_time
+        })
+      })
+    } else {
+      const doc: firebase.firestore.QueryDocumentSnapshot = messagesData.docs[0]
+      this.messages.unshift({
+        id: doc.id,
+        text: doc.data().text,
+        create_time: doc.data().create_time
+      })
+    }
   }
 
   // メッセージ作成
@@ -48,6 +54,7 @@ export default class Chat extends Vue {
         create_time: dayjs().format("YYYY/MM/DD HH:mm:ss")
       })
       console.log("create success!!!")
+      this.newMessage = ""
       this.chatModal = false
     } catch (err) {
       console.error(err)
