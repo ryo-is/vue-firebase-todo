@@ -1,7 +1,6 @@
 import { Component, Vue } from "vue-property-decorator"
-import router from "@/router"
 import { TaskType } from "@/types"
-import firebase from "firebase"
+import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
 
 const tasksDB: firebase.firestore.CollectionReference = fireStore.collection("tasks")
