@@ -5,6 +5,8 @@ import * as firebase from "firebase/app"
 @Component({})
 export default class SignIn extends Vue {
   public title: string = "firestore Read/Write App"
+  public alertDisplay: boolean = false
+  public errorMessage: string = ""
   public mailAddress: string = ""
   public password: string = ""
   public valid: boolean = true
@@ -28,6 +30,19 @@ export default class SignIn extends Vue {
       router.push("/")
     } catch (err) {
       console.error(err)
+      this.checkErrorCode(err.code)
+      this.alertDisplay = true
+    }
+  }
+
+  public checkErrorCode(code: string): void {
+    switch (code) {
+      case "auth/wrong-password":
+        this.errorMessage = "Wrong Password"
+        break
+      default:
+        this.errorMessage = "User Not Found"
+        break
     }
   }
 
