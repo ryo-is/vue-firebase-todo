@@ -18,12 +18,14 @@ export default class Chat extends Vue {
     this.setSnapshot()
   }
 
+  // メッセージの監視
   public setSnapshot(): void {
     messagesDB.onSnapshot(() => {
       this.getMessages()
     })
   }
 
+  // メッセージの取得
   public async getMessages(): Promise<void> {
     const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").get()
     if (this.messages.length === 0) {
