@@ -1,5 +1,7 @@
-import firebase from "firebase"
+import * as firebase from "firebase/app"
 import { FirebaseConfigType } from "@/types"
+import "firebase/auth"
+import "firebase/firestore"
 
 const firebaseConfig: FirebaseConfigType = {
   apiKey: process.env.VUE_APP_API_KEY,

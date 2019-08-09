@@ -1,5 +1,5 @@
 import { Component, Vue } from "vue-property-decorator"
-import firebase from "firebase"
+import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
 
 const commentsDB: firebase.firestore.CollectionReference = fireStore.collection("comments")

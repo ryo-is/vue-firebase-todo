@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator"
 import router from "@/router"
-import firebase from "firebase"
+import * as firebase from "firebase/app"
 
 @Component({})
 export default class App extends Vue {
