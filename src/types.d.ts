@@ -26,3 +26,9 @@ export type UserDataType = {
   age: number
   gender: "male" | "female" | "other"
 }
+
+export type MessageType = {
+  id: string
+  text: string
+  create_time: string
+}
