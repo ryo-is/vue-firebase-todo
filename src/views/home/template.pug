@@ -3,7 +3,7 @@ v-container.home(text-center)
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm7 md6 lg5 xl3)
       v-text-field(v-model="newTask" label="Create New Task")
-      v-btn(color="primary" @click="createTask" depressed) Add Task
+      v-btn(color="primary" @click="createTask" large depressed) Add Task
       v-divider.mt-4
       v-layout.my-2(align-center)
         strong.mx-4.info--text.text--darken-3 Remaining: {{ remainingTasks }}

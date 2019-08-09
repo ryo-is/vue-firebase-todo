@@ -5,6 +5,8 @@ import * as firebase from "firebase/app"
 @Component({})
 export default class SignUp extends Vue {
   public title: string = "firestore Read/Write App"
+  public alertDisplay: boolean = false
+  public errorMessage: string = ""
   public mailAddress: string = ""
   public password: string = ""
   public valid: boolean = true
@@ -28,6 +30,17 @@ export default class SignUp extends Vue {
       router.push("/signin")
     } catch (err) {
       console.error(err)
+      this.checkErrorCode(err.code)
+      this.alertDisplay = true
+    }
+  }
+
+  // エラーコードのチェック
+  public checkErrorCode(code: string): void {
+    switch (code) {
+      default:
+        this.errorMessage = "Email Already In Use"
+        break
     }
   }
 
