@@ -70,7 +70,7 @@ export default class Home extends Vue {
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      await tasksDB.add({　text: this.newTask,　done: false　})
+      await tasksDB.add({ text: this.newTask, done: false })
       this.newTask = ""
       console.log("create success!!!")
     } catch (err) {
