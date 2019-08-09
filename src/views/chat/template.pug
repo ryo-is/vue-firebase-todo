@@ -2,10 +2,10 @@ v-container.chat(text-center)
   .display-1.font-weight-light.mt-6 {{ title }}
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm8 md7 lg6 xl4)
-      v-sheet.chat-area.overflow-y-hidden(:height=720)
+      v-card.chat-area.overflow-y-hidden(:height=720)
         v-btn.chat-button(color="primary" depressed absolute bottom right fab @click="chatModal = true")
           v-icon chat
-        v-sheet(:height=720)
+        v-sheet.message-area(:height=720)
           template(v-for="message, i in messages")
             v-list-item(:key="`${i}-${message.id}`")
               v-layout.pl-4.py-2(row text-left)

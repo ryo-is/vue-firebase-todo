@@ -1,6 +1,10 @@
 .chat {
   .chat-area {
     position: relative;
+
+    .message-area {
+      overflow-y: scroll;
+    }
   }
 
   .chat-button {
