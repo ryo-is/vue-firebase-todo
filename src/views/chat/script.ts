@@ -27,7 +27,7 @@ export default class Chat extends Vue {
 
   // メッセージの取得
   public async getMessages(): Promise<void> {
-    const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").get()
+    const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").limit(20).get()
     if (this.messages.length === 0) {
       messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
         this.messages.push({
