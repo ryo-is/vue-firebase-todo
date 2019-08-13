@@ -31,5 +31,6 @@ export type MessageType = {
   id: string
   display_name: string
   text: string
-  create_time: string
+  create_time: string,
+  disable_icon?: boolean
 }

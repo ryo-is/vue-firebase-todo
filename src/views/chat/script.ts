@@ -36,7 +36,8 @@ export default class Chat extends Vue {
         id: doc.id,
         display_name: doc.data().display_name,
         text: doc.data().text,
-        create_time: doc.data().create_time
+        create_time: doc.data().create_time,
+        disable_icon: store.state.displayName !== doc.data().display_name
       })
     })
   }

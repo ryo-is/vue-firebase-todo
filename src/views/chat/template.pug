@@ -11,7 +11,7 @@ v-container.chat(text-center)
               v-layout.pl-4.py-2(row text-left)
                 v-flex(xs10)
                   .title.font-weight-regular.message-text {{ message.text }}
-                v-flex(xs2 text-right)
+                v-flex(xs2 text-right v-show="!message.disable_icon || message.display_name === 'No User'")
                   v-btn.delete-button(text icon small @click="editMessage(message)")
                     v-icon(pointer) edit
                   v-btn.delete-button(text icon small @click="deleteMessage(message)")
