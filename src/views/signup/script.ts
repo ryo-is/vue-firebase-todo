@@ -8,11 +8,15 @@ export default class SignUp extends Vue {
   public alertDisplay: boolean = false
   public errorMessage: string = ""
   public mailAddress: string = ""
+  public displayName: string = ""
   public password: string = ""
   public valid: boolean = true
   public mailAddressRules: any[] = [
-    (v: string): string | boolean => !!v || "メールアドレスは必須です",
-    (v: string): string | boolean => v.match(/[^\s]@[^\s]/) !== null || "メールアドレスの形式になっていません"
+    (v: string): string | boolean => !!v || "MailAddress is required",
+    (v: string): string | boolean => v.match(/[^\s]@[^\s]/) !== null || "Email address is not in the format"
+  ]
+  public displayNameRules: any[] = [
+    (v: any): string | boolean => !!v || "DisplayName is required"
   ]
   public passwordRules: any[] = [
     (v: any): string | boolean => !!v || "Password is required"
@@ -25,8 +29,8 @@ export default class SignUp extends Vue {
   // サインアップ処理
   public async submitSignUp(): Promise<void> {
     try {
-      const user: firebase.auth.UserCredential = await firebase.auth().createUserWithEmailAndPassword(this.mailAddress, this.password)
-      console.log(user)
+      const userCredential: firebase.auth.UserCredential = await firebase.auth().createUserWithEmailAndPassword(this.mailAddress, this.password)
+      userCredential.user.updateProfile({displayName: this.displayName})
       router.push("/signin")
     } catch (err) {
       console.error(err)
