@@ -13,6 +13,9 @@ v-container.chat(text-center)
                   .title.font-weight-regular {{ message.text }}
                 v-flex(xs6)
                   .subtitle-2.font-weight-regular {{ message.create_time }}
+                //- v-flex.pr-4(xs6 text-right)
+                v-btn.delete-button(absolute right text icon bottom @click="deleteMessage(message)")
+                  v-icon(pointer) delete
             v-divider(v-if="i !== messages.length - 1" :key="`${i}-divider`")
   v-dialog(v-model="chatModal" width=600)
     v-card.modal-dialog.py-4

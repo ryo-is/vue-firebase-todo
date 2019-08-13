@@ -28,22 +28,14 @@ export default class Chat extends Vue {
   // メッセージの取得
   public async getMessages(): Promise<void> {
     const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").limit(20).get()
-    if (this.messages.length === 0) {
-      messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
-        this.messages.push({
-          id: doc.id,
-          text: doc.data().text,
-          create_time: doc.data().create_time
-        })
-      })
-    } else {
-      const doc: firebase.firestore.QueryDocumentSnapshot = messagesData.docs[0]
-      this.messages.unshift({
+    this.messages = []
+    messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
+      this.messages.push({
         id: doc.id,
         text: doc.data().text,
         create_time: doc.data().create_time
       })
-    }
+    })
   }
 
   // メッセージ作成
@@ -56,6 +48,16 @@ export default class Chat extends Vue {
       console.log("create success!!!")
       this.newMessage = ""
       this.chatModal = false
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // メッセージ削除
+  public async deleteMessage(message: MessageType): Promise<void> {
+    try {
+      await messagesDB.doc(message.id).delete()
+      console.log("delete success!!!")
     } catch (err) {
       console.error(err)
     }
