@@ -3,7 +3,7 @@ v-container.chat(text-center)
   v-layout.mt-6(row justify-center)
     v-flex(xs10 sm8 md7 lg6 xl4)
       v-card.chat-area.overflow-y-hidden.pl-2(:height=720)
-        v-btn.chat-button(color="primary" depressed absolute bottom right fab @click="chatModal = true")
+        v-btn.chat-button(color="primary" depressed absolute bottom right fab @click="changeMessageType('create')")
           v-icon chat
         v-sheet.message-area(:height=720)
           template(v-for="message, i in messages")
@@ -23,8 +23,11 @@ v-container.chat(text-center)
     v-card.modal-dialog.py-4
       v-container
         v-layout(row justify-center)
-          v-flex(xs10 text-center)
-            v-text-field(v-model="newMessage" label="Send Message")
+          v-flex(xs10 text-center v-if="messageType === 'create'")
+            v-text-field(v-model="createMessageText" label="Send Message")
             v-btn(color="primary" large depressed @click="sendMessage()") Send
+          v-flex(xs10 text-center v-if="messageType === 'update'")
+            v-text-field(v-model="editMessageData.text" label="Update Message")
+            v-btn(color="success" large depressed @click="updateMessage()") Update
 
 

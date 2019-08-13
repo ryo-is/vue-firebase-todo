@@ -11,12 +11,27 @@ const messagesDB: firebase.firestore.CollectionReference = fireStore.collection(
 export default class Chat extends Vue {
   public title: string = "Chat App"
   public chatModal: boolean = false
-  public newMessage: string = ""
+  public messageType: string = "create"
+  public createMessageText: string = ""
+  public editMessageText: string = ""
+  public editMessageData: MessageType = null
   public messages: MessageType[] = []
 
   public created(): void {
     this.$root.$children[0].$data.displaySignOut = true
     this.setSnapshot()
+  }
+
+  // メッセージタイプを変更
+  public changeMessageType(messageType: string): void {
+    this.messageType = messageType
+    this.chatModal = true
+  }
+
+  // 編集モードでchatModalを表示
+  public editMessage(message: MessageType): void {
+    this.editMessageData = message
+    this.changeMessageType("update")
   }
 
   // メッセージの監視
@@ -47,11 +62,11 @@ export default class Chat extends Vue {
     try {
       await messagesDB.add({
         display_name: (store.state.displayName === "") ? "No User" : store.state.displayName,
-        text: this.newMessage,
+        text: this.createMessageText,
         create_time: dayjs().format("YYYY/MM/DD HH:mm:ss")
       })
       console.log("create success!!!")
-      this.newMessage = ""
+      this.createMessageText = ""
       this.chatModal = false
     } catch (err) {
       console.error(err)
@@ -59,8 +74,16 @@ export default class Chat extends Vue {
   }
 
   // メッセージ編集
-  public async editMessage(message: MessageType): Promise<void> {
-    console.log(message)
+  public async updateMessage(): Promise<void> {
+    try {
+      await messagesDB.doc(this.editMessageData.id).update({
+        text: this.editMessageData.text
+      })
+      console.log("update success!!!")
+      this.chatModal = false
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // メッセージ削除
