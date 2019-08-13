@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
     firebase.auth().onAuthStateChanged((user: firebase.User) => {
       if (user) {
         console.log("authorized", user)
-        store.commit("setUserEmail", user.email)
+        store.commit("setDisplayName", user.displayName)
         next()
       } else {
         console.log("not authorized")

@@ -34,7 +34,7 @@ export default class Chat extends Vue {
     messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
       this.messages.push({
         id: doc.id,
-        user_email: doc.data().user_email,
+        display_name: doc.data().display_name,
         text: doc.data().text,
         create_time: doc.data().create_time
       })
@@ -45,7 +45,7 @@ export default class Chat extends Vue {
   public async sendMessage(): Promise<void> {
     try {
       await messagesDB.add({
-        user_email: (store.state.userEmail === "") ? "No User" : store.state.userEmail,
+        display_name: (store.state.displayName === "") ? "No User" : store.state.displayName,
         text: this.newMessage,
         create_time: dayjs().format("YYYY/MM/DD HH:mm:ss")
       })

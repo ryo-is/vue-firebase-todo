@@ -29,7 +29,7 @@ export type UserDataType = {
 
 export type MessageType = {
   id: string
-  user_email: string
+  display_name: string
   text: string
   create_time: string
 }
