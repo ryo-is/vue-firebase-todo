@@ -6,6 +6,7 @@ v-container.signin(text-center)
       v-alert.alert-message(:value="alertDisplay" type="error" transition="scroll-y-transition") {{ errorMessage }}
       v-form(v-model="valid" lazy-validation)
         v-text-field(v-model="mailAddress" label="MailAddress" required :rules="mailAddressRules")
+        v-text-field(v-model="displayName" label="DisplayName" required :rules="displayNameRules")
         v-text-field(v-model="password" label="Password" required type="password" :rules="passwordRules")
         v-btn.my-2(:disabled="!valid" color="primary" large @click="submitSignUp") SignUp
     v-flex(xs12)
