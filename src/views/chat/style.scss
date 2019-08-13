@@ -16,10 +16,14 @@
         border-radius: 8px;
       }
 
+      .delete-button {
+        bottom: 7px !important;
+      }
     }
   }
 
   .chat-button {
     bottom: 16px !important;
+    z-index: 5;
   }
 }
