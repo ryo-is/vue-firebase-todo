@@ -16,6 +16,10 @@
         border-radius: 8px;
       }
 
+      .message-text {
+        word-break: break-all;
+      }
+
       .delete-button {
         bottom: 7px !important;
       }

@@ -1,4 +1,5 @@
 import { Component, Vue } from "vue-property-decorator"
+import store from "@/store"
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
 import dayjs from "dayjs"
@@ -27,11 +28,13 @@ export default class Chat extends Vue {
 
   // メッセージの取得
   public async getMessages(): Promise<void> {
-    const messagesData: firebase.firestore.QuerySnapshot = await messagesDB.orderBy("create_time", "desc").limit(20).get()
+    const messagesData: firebase.firestore.QuerySnapshot
+      = await messagesDB.orderBy("create_time", "desc").limit(20).get()
     this.messages = []
     messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
       this.messages.push({
         id: doc.id,
+        user_email: doc.data().user_email,
         text: doc.data().text,
         create_time: doc.data().create_time
       })
@@ -42,6 +45,7 @@ export default class Chat extends Vue {
   public async sendMessage(): Promise<void> {
     try {
       await messagesDB.add({
+        user_email: (store.state.userEmail === "") ? "No User" : store.state.userEmail,
         text: this.newMessage,
         create_time: dayjs().format("YYYY/MM/DD HH:mm:ss")
       })
@@ -51,6 +55,11 @@ export default class Chat extends Vue {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  // メッセージ編集
+  public async editMessage(message: MessageType): Promise<void> {
+    console.log(message)
   }
 
   // メッセージ削除
