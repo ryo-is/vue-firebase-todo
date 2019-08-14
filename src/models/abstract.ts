@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
-import { AddMessageType, UpdateMessageType, AddTaskType } from "@/types"
+import { AddMessageType, UpdateMessageType, AddTaskType, UpdateTaskType } from "@/types"
 
 export default class AbstractModel {
   public firestoreDB: firebase.firestore.CollectionReference
@@ -24,14 +24,14 @@ export default class AbstractModel {
   }
 
   // データを追加する
-  public async add<T extends firebase.firestore.DocumentData | AddMessageType | AddTaskType>(
+  public async add<T extends AddMessageType | AddTaskType>(
     data: T
   ): Promise<void> {
     await this.firestoreDB.add(data)
   }
 
   // データを更新する
-  public async update<T extends firebase.firestore.UpdateData | UpdateMessageType>(
+  public async update<T extends UpdateMessageType | UpdateTaskType>(
     documentPath: string,
     data: T
   ): Promise<void> {
