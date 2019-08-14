@@ -31,6 +31,16 @@ export type MessageType = {
   id: string
   display_name: string
   text: string
-  create_time: string,
+  create_time: string
   disable_icon?: boolean
+}
+
+export type AddMessageType = {
+  display_name: string
+  text: string
+  create_time: string
+}
+
+export type UpdateMessageType = {
+  text: string
 }

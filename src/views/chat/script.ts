@@ -1,12 +1,10 @@
 import { Component, Vue } from "vue-property-decorator"
 import store from "@/store"
 import * as firebase from "firebase/app"
-import fireStore from "@/firebase/firestore_init"
 import dayjs from "dayjs"
 import { MessageType } from "@/types"
 import MessagesModel from "@/models/messages"
 
-const messagesDB: firebase.firestore.CollectionReference = fireStore.collection("messages")
 const messagesModel: MessagesModel = new MessagesModel()
 
 @Component({})
@@ -38,7 +36,7 @@ export default class Chat extends Vue {
 
   // メッセージの監視
   public setSnapshot(): void {
-    messagesDB.onSnapshot(() => {
+    messagesModel.firestoreDB.onSnapshot(() => {
       this.getMessages()
     })
   }
@@ -62,7 +60,7 @@ export default class Chat extends Vue {
   // メッセージ作成
   public async sendMessage(): Promise<void> {
     try {
-      await messagesDB.add({
+      await messagesModel.addMessages({
         display_name: (store.state.displayName === "") ? "No User" : store.state.displayName,
         text: this.createMessageText,
         create_time: dayjs().format("YYYY/MM/DD HH:mm:ss")
@@ -78,7 +76,7 @@ export default class Chat extends Vue {
   // メッセージ編集
   public async updateMessage(): Promise<void> {
     try {
-      await messagesDB.doc(this.editMessageData.id).update({
+      await messagesModel.updateMessage(this.editMessageData.id, {
         text: this.editMessageData.text
       })
       console.log("update success!!!")
@@ -91,7 +89,7 @@ export default class Chat extends Vue {
   // メッセージ削除
   public async deleteMessage(message: MessageType): Promise<void> {
     try {
-      await messagesDB.doc(message.id).delete()
+      await messagesModel.delete(message.id)
       console.log("delete success!!!")
     } catch (err) {
       console.error(err)

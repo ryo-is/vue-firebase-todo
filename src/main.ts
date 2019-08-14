@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record: any) => record.meta.requiredAuth)) {
     firebase.auth().onAuthStateChanged((user: firebase.User) => {
       if (user) {
-        console.log("authorized", user)
+        console.log("authorized")
         store.commit("setDisplayName", user.displayName)
         next()
       } else {
