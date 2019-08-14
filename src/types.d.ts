@@ -14,6 +14,15 @@ export type TaskType = {
   done: boolean
 }
 
+export type AddTaskType = {
+  text: string
+  done: boolean
+}
+
+export type UpdateTaskType = {
+  done: boolean
+}
+
 export type DataTableHeaderType = {
   text: string
   value: string

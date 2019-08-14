@@ -2,8 +2,10 @@ import { Component, Vue } from "vue-property-decorator"
 import { TaskType } from "@/types"
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
+import TasksModel from "@/models/tasks_model"
 
 const tasksDB: firebase.firestore.CollectionReference = fireStore.collection("tasks")
+const tasksModel: TasksModel = new TasksModel()
 
 @Component({})
 export default class Home extends Vue {
@@ -30,7 +32,7 @@ export default class Home extends Vue {
 
   // タスク変更をsubcribeする
   public setSnapshot(): void {
-    tasksDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
+    tasksModel.firestoreDB.onSnapshot((data: firebase.firestore.QuerySnapshot) => {
       data.docChanges().forEach((docChange: firebase.firestore.DocumentChange) => {
         switch (docChange.type) {
           case "added":
@@ -54,7 +56,7 @@ export default class Home extends Vue {
   // タスクの取得
   public async getTasks(): Promise<void> {
     try {
-      const taskData: firebase.firestore.QuerySnapshot = await tasksDB.get()
+      const taskData: firebase.firestore.QuerySnapshot = await tasksModel.getAll()
       taskData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
         this.tasks.push({
           id: doc.id,
@@ -70,7 +72,10 @@ export default class Home extends Vue {
   // タスク作成
   public async createTask(): Promise<void> {
     try {
-      await tasksDB.add({ text: this.newTask, done: false })
+      await tasksModel.addTask({
+        text: this.newTask,
+        done: false
+      })
       this.newTask = ""
       console.log("create success!!!")
     } catch (err) {
@@ -81,7 +86,9 @@ export default class Home extends Vue {
   // タスク更新
   public async updateTask(task: TaskType): Promise<void> {
     try {
-      await tasksDB.doc(task.id).update({　done: task.done　})
+      await tasksModel.updateTask(task.id, {
+        　done: task.done
+      })
       console.log("update success!!!")
     } catch (err) {
       console.error(err)
@@ -91,7 +98,7 @@ export default class Home extends Vue {
   // タスク削除
   public async deleteTask(task: TaskType): Promise<void> {
     try {
-      await tasksDB.doc(task.id).delete()
+      await tasksModel.delete(task.id)
       console.log("delete success!!!")
     } catch (err) {
       console.error(err)

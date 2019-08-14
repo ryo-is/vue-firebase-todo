@@ -3,7 +3,7 @@ import store from "@/store"
 import * as firebase from "firebase/app"
 import dayjs from "dayjs"
 import { MessageType } from "@/types"
-import MessagesModel from "@/models/messages"
+import MessagesModel from "@/models/messages_model"
 
 const messagesModel: MessagesModel = new MessagesModel()
 
