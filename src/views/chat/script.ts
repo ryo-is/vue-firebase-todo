@@ -4,8 +4,10 @@ import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
 import dayjs from "dayjs"
 import { MessageType } from "@/types"
+import MessagesModel from "@/models/messages"
 
 const messagesDB: firebase.firestore.CollectionReference = fireStore.collection("messages")
+const messagesModel: MessagesModel = new MessagesModel()
 
 @Component({})
 export default class Chat extends Vue {
@@ -44,7 +46,7 @@ export default class Chat extends Vue {
   // メッセージの取得
   public async getMessages(): Promise<void> {
     const messagesData: firebase.firestore.QuerySnapshot
-      = await messagesDB.orderBy("create_time", "desc").limit(20).get()
+      = await messagesModel.getWithOrderBy("create_time", "desc", 20)
     this.messages = []
     messagesData.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
       this.messages.push({
