@@ -40,5 +40,11 @@ export default new Router({
       name: "signup",
       component: SignUp,
     },
+    {
+      path: "*",
+      redirect: {
+        name: "home",
+      },
+    },
   ],
 })
