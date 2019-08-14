@@ -1,12 +1,17 @@
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
-import { AddMessageType, UpdateMessageType } from "@/types"
+import { AddMessageType, UpdateMessageType, AddTaskType } from "@/types"
 
 export default class AbstractModel {
   public firestoreDB: firebase.firestore.CollectionReference
 
   constructor(collectionPath: string) {
     this.firestoreDB = fireStore.collection(collectionPath)
+  }
+
+  // データを全件取得
+  public async getAll(): Promise<firebase.firestore.QuerySnapshot> {
+    return await this.firestoreDB.get()
   }
 
   // OrderByで昇順降順を指定して取得する
@@ -19,7 +24,7 @@ export default class AbstractModel {
   }
 
   // データを追加する
-  public async add<T extends firebase.firestore.DocumentData | AddMessageType>(
+  public async add<T extends firebase.firestore.DocumentData | AddMessageType | AddTaskType>(
     data: T
   ): Promise<void> {
     await this.firestoreDB.add(data)
