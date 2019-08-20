@@ -1,6 +1,10 @@
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
-import { AddMessageType, UpdateMessageType, AddTaskType, UpdateTaskType } from "@/types"
+import {
+  AddMessageType, UpdateMessageType,
+  AddTaskType, UpdateTaskType,
+  SetUserType
+} from "@/types"
 
 export default class AbstractModel {
   public firestoreDB: firebase.firestore.CollectionReference
@@ -23,11 +27,22 @@ export default class AbstractModel {
     return await this.firestoreDB.orderBy(fieldPath, directionStr).limit(limit).get()
   }
 
-  // データを追加する
+  // データを追加する(add)
   public async add<T extends AddMessageType | AddTaskType>(
     data: T
   ): Promise<void> {
     await this.firestoreDB.add(data)
+  }
+
+  // データを追加する(set)
+  public async set<T extends SetUserType>(
+    data: T
+  ): Promise<void> {
+    await this.firestoreDB.doc(data.name).set({
+      name: data.name,
+      age: data.age,
+      gender: data.gender
+    })
   }
 
   // データを更新する

@@ -53,3 +53,5 @@ export type AddMessageType = {
 export type UpdateMessageType = {
   text: string
 }
+
+export type SetUserType = UserDataType
