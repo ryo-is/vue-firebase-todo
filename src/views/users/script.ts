@@ -2,6 +2,9 @@ import { Component, Vue } from "vue-property-decorator"
 import * as firebase from "firebase/app"
 import fireStore from "@/firebase/firestore_init"
 import { DataTableHeaderType, UserDataType } from "@/types"
+import UsersModel from "@/models/users_model"
+
+const usersModel: UsersModel = new UsersModel()
 
 @Component({})
 export default class Users extends Vue {
@@ -27,7 +30,7 @@ export default class Users extends Vue {
   public async getUser(): Promise<void> {
     try {
       this.userData = []
-      const user: firebase.firestore.QuerySnapshot = await fireStore.collection("users").get()
+      const user: firebase.firestore.QuerySnapshot = await usersModel.getAll()
       user.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {
         this.userData.push(doc.data() as UserDataType)
       })
@@ -39,7 +42,7 @@ export default class Users extends Vue {
   // ユーザー作成 / 更新
   public async setUsers(): Promise<void> {
     try {
-      await fireStore.collection("users").doc(this.name).set({
+      await usersModel.setUser({
         name: this.name,
         age: this.age,
         gender: this.gender
