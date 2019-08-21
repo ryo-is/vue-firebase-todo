@@ -18,6 +18,7 @@ export default class App extends Vue {
   public async signOut(): Promise<void> {
     try {
       await firebase.auth().signOut()
+      router.push("/signin")
     } catch (err) {
       console.error(err)
     }
