@@ -1,10 +1,8 @@
 import { Component, Vue } from "vue-property-decorator"
 import { TaskType } from "@/types"
 import * as firebase from "firebase/app"
-import fireStore from "@/firebase/firestore_init"
 import TasksModel from "@/models/tasks_model"
 
-const tasksDB: firebase.firestore.CollectionReference = fireStore.collection("tasks")
 const tasksModel: TasksModel = new TasksModel()
 
 @Component({})
@@ -25,7 +23,7 @@ export default class Home extends Vue {
     return this.completedTasks / this.tasks.length * 100
   }
 
-  public async created(): Promise<void> {
+  public async mounted(): Promise<void> {
     this.$root.$children[0].$data.displaySignOut = true
     this.setSnapshot()
   }

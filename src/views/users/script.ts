@@ -1,6 +1,5 @@
 import { Component, Vue } from "vue-property-decorator"
 import * as firebase from "firebase/app"
-import fireStore from "@/firebase/firestore_init"
 import { DataTableHeaderType, UserDataType } from "@/types"
 import UsersModel from "@/models/users_model"
 
@@ -21,7 +20,7 @@ export default class Users extends Vue {
   ]
   public userData: UserDataType[] = []
 
-  public async created(): Promise<void> {
+  public async mounted(): Promise<void> {
     this.$root.$children[0].$data.displaySignOut = true
     await this.getUser()
   }
