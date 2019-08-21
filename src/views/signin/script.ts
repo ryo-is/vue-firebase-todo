@@ -24,10 +24,16 @@ export default class SignIn extends Vue {
   }
 
   // signin処理
-  public async submitSignIn(): Promise<void> {
+  public async submitSignIn(provider: "default" | "google" = "default"): Promise<void> {
     try {
-      // await firebase.auth().signInWithEmailAndPassword(this.mailAddress, this.password)
-      await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      switch (provider) {
+        case "google":
+          await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+          break
+        default:
+          await firebase.auth().signInWithEmailAndPassword(this.mailAddress, this.password)
+          break
+      }
       router.push("/")
     } catch (err) {
       console.error(err)
