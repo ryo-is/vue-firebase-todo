@@ -1,6 +1,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import router from "@/router"
 import * as firebase from "firebase/app"
+import "firebase/auth"
 
 @Component({})
 export default class SignIn extends Vue {
@@ -25,7 +26,8 @@ export default class SignIn extends Vue {
   // signin処理
   public async submitSignIn(): Promise<void> {
     try {
-      await firebase.auth().signInWithEmailAndPassword(this.mailAddress, this.password)
+      // await firebase.auth().signInWithEmailAndPassword(this.mailAddress, this.password)
+      await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
       router.push("/")
     } catch (err) {
       console.error(err)
