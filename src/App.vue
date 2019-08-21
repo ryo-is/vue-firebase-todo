@@ -9,6 +9,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import router from "@/router"
 import * as firebase from "firebase/app"
+import "firebase/auth"
 
 @Component({})
 export default class App extends Vue {
