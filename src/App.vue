@@ -12,13 +12,12 @@ import * as firebase from "firebase/app"
 
 @Component({})
 export default class App extends Vue {
-  public displaySignOut: boolean = false
+  public displaySignOut: boolean = true
 
   // サインアウト処理
   public async signOut(): Promise<void> {
     try {
       await firebase.auth().signOut()
-      router.push("/signin")
     } catch (err) {
       console.error(err)
     }
