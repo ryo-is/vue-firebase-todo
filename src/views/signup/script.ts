@@ -22,7 +22,7 @@ export default class SignUp extends Vue {
     (v: any): string | boolean => !!v || "Password is required"
   ]
 
-  public created(): void {
+  public mounted(): void {
     this.$root.$children[0].$data.displaySignOut = false
   }
 

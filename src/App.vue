@@ -15,11 +15,24 @@ import "firebase/auth"
 export default class App extends Vue {
   public displaySignOut: boolean = true
 
+  public mounted(): void {
+    firebase.auth().onAuthStateChanged((user: firebase.User) => {
+      if (user) {
+        console.log("authorized")
+      } else {
+        console.log("unAuthorized")
+        if (!(this.$route.path === "/signup" || this.$route.path === "/signin")) {
+          router.push("/signin")
+        }
+      }
+    })
+  }
+
   // サインアウト処理
   public async signOut(): Promise<void> {
     try {
       await firebase.auth().signOut()
-      router.push("/signin")
+      // router.push("/signin")
     } catch (err) {
       console.error(err)
     }

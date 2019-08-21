@@ -17,7 +17,7 @@ export default class Chat extends Vue {
   public editMessageData: MessageType = null
   public messages: MessageType[] = []
 
-  public created(): void {
+  public mounted(): void {
     this.$root.$children[0].$data.displaySignOut = true
     this.setSnapshot()
   }
