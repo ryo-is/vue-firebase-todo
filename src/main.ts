@@ -5,6 +5,7 @@ import router from "./router"
 import store from "./store"
 import "./registerServiceWorker"
 import * as firebase from "firebase/app"
+import "firebase/auth"
 
 Vue.config.productionTip = false
 
